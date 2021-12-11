@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class BuggyController : BaseAPIController
+    public class BuggyController : BaseApiController
     {
         private readonly DataContext _context;
         public BuggyController(DataContext context)
@@ -44,7 +44,7 @@ namespace API.Controllers
         [HttpGet("bad-request")]
         public ActionResult<string> GetBadRequest()
         {
-            return BadRequest();
+            return BadRequest("This was not a good request");
         }
     }
 }
