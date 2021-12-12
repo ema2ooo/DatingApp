@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Member } from 'src/app/_models/member';
 import { MembersService } from 'src/app/_services/members.service';
+import { ActivatedRoute } from '@angular/router';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
 
 @Component({
@@ -13,6 +13,7 @@ export class MemberDetailComponent implements OnInit {
   member: Member;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
+
   constructor(private memberService: MembersService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {

@@ -22,5 +22,5 @@ export class TextInputComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: any): void {
   }
-
+  
 }

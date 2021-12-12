@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace API.Data.Migrations
+namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
@@ -73,7 +73,7 @@ namespace API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("AppUserId")
+                    b.Property<int>("AppUserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsMain")
@@ -92,15 +92,57 @@ namespace API.Data.Migrations
                     b.ToTable("Photos");
                 });
 
+            modelBuilder.Entity("API.Entities.UserLike", b =>
+                {
+                    b.Property<int>("SourceUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("LikedUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("SourceUserId", "LikedUserId");
+
+                    b.HasIndex("LikedUserId");
+
+                    b.ToTable("Likes");
+                });
+
             modelBuilder.Entity("API.Entities.Photo", b =>
                 {
-                    b.HasOne("API.Entities.AppUser", null)
+                    b.HasOne("API.Entities.AppUser", "AppUser")
                         .WithMany("Photos")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("API.Entities.UserLike", b =>
+                {
+                    b.HasOne("API.Entities.AppUser", "LikedUser")
+                        .WithMany("LikedByUsers")
+                        .HasForeignKey("LikedUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.AppUser", "SourceUser")
+                        .WithMany("LikedUsers")
+                        .HasForeignKey("SourceUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LikedUser");
+
+                    b.Navigation("SourceUser");
                 });
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
+                    b.Navigation("LikedByUsers");
+
+                    b.Navigation("LikedUsers");
+
                     b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618

@@ -17,10 +17,10 @@ export class LoadingInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     this.busyService.busy();
     return next.handle(request).pipe(
-      delay(300),
-      finalize(()=> {
+      delay(250),
+      finalize(() => {
         this.busyService.idle();
       })
-    );
+    )
   }
 }
